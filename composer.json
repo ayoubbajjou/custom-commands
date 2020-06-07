@@ -1,0 +1,19 @@
+{
+    "name": "bajjouayoub/custom-commands",
+    "description": "This Laravel package help to manage multiple commands in one command line.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ayoub Bajjou",
+            "email": "bajjouayoub@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Bajjouayoub\\CustomCommands\\": "src/"
+        }
+    }
+}
