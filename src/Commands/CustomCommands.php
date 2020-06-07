@@ -3,6 +3,8 @@
 namespace Bajjouayoub\CustomCommands\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Artisan;
 
 class CustomCommands extends Command
 {
@@ -12,7 +14,16 @@ class CustomCommands extends Command
      * @var string
      */
 
-    public $command_name;
+    protected $command_name;
+
+    protected $commands;
+
+    protected $table;
+
+    protected $row;
+
+    protected $changeEnv;
+
 
     /**
      * The console command description.
@@ -32,7 +43,15 @@ class CustomCommands extends Command
 
         $this->command_name = config("custom-commands.command_name");
 
-        parent::__construct($this->signature = $this->command_name.':pull');
+        parent::__construct($this->signature = $this->command_name);
+
+        $this->commands = (array) config("custom-commands.commands");
+        
+        $this->table = config("custom-commands.table");
+
+        $this->row = config("custom-commands.row");
+
+        $this->changeEnv = (boolean) config("custom-commands.change_env");
 
     }
 
@@ -43,12 +62,54 @@ class CustomCommands extends Command
      */
     public function handle()
     {
-        // Artisan::call('config:clear');
-        // Artisan::call('migrate:refresh');
-        // Artisan::call('db:seed');
-        // Artisan::call('passport:install');
 
-        $this->info("The Custom Commands runs properly !");
+        $commands = $this->commands;
 
+
+        if(! empty($commands)) {
+            
+            foreach($commands as $command) {
+            
+                Artisan::call($command);
+            
+            }
+
+            if($this->changeEnv) {
+                
+                $key = "CLIENT_SECRET" ;
+
+                $value = $this->row($this->row);
+    
+                $path = app()->environmentFilePath();
+    
+                $escaped = preg_quote('='.env($key), '/');
+    
+                file_put_contents($path, preg_replace(
+                    
+                    "/^{$key}{$escaped}/m",
+                    
+                    "{$key}={$value}",
+                    
+                    file_get_contents($path)
+                ));
+            }
+            
+    
+            $this->info("The custom commands runs properly !");
+        
+        }else {
+        
+            $this->warn("You have no commands to run !");
+        
+        }
+        
+        
+
+    }
+
+
+    protected function row($row)
+    {        
+        return DB::table($this->table)->where('personal_access_client', 0)->first()->$row;
     }
 }
