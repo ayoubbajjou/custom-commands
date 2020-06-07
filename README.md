@@ -9,4 +9,4 @@ Bajjouayoub\CustomCommands\CustomCommandsServiceProvider::class
 
 #publish the configuration file
 
-php artisan vendor:publish --tag="custom-commands"
+php artisan vendor:publish --provider="Bajjouayoub\CustomCommands\CustomCommandsServiceProvider"
