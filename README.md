@@ -1,3 +1,6 @@
+#download the package
+
+composer require bajjouayoub/custom-commands
 
 #register the package in services provider at config/app.php
 
