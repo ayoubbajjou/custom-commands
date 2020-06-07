@@ -15,5 +15,12 @@
         "psr-4": {
             "Bajjouayoub\\CustomCommands\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bajjouayoub\\CustomCommands\\CustomCommandsServiceProvider"
+            ]
+        }
     }
 }
