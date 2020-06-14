@@ -1,7 +1,7 @@
 # Larave Custom Commands Package
 
 
-[!Github issues](https://img.shields.io/github/issues/ayoubbajjou/custom-commands)
+![Github issues](https://img.shields.io/github/issues/ayoubbajjou/custom-commands)
 [![Software License](	https://img.shields.io/github/license/ayoubbajjou/custom-commands)]()
 
 This Laravel package help to manage multiple commands in one command line, and this package is recomended if 
