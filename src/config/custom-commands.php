@@ -11,7 +11,7 @@ return [
     ],
 
     // Change the value inside .env file
-    "change_env" => true,
+    "change_env" => false,
 
     // The table that you need to get the data from to change it
     "table" => "",

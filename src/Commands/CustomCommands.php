@@ -8,20 +8,40 @@ use Illuminate\Support\Facades\Artisan;
 
 class CustomCommands extends Command
 {
+    
     /**
-     * The name and signature of the console command.
+     * The Command name ex: php artisan "command:name"
      *
      * @var string
      */
-
     protected $command_name;
-
+    
+    /**
+     * List of commands that runs by this command
+     *
+     * @var array
+     */
     protected $commands;
-
+    
+    /**
+     * The name of the table by default is "oauth_token"
+     *
+     * @var string
+     */
     protected $table;
-
+    
+    /**
+     * The name of the row in the table
+     *
+     * @var string
+     */
     protected $row;
-
+    
+    /**
+     * The variable will change in the .env file 
+     *
+     * @var bool
+     */
     protected $changeEnv;
 
 
@@ -65,7 +85,6 @@ class CustomCommands extends Command
 
         $commands = $this->commands;
 
-
         if(! empty($commands)) {
             
             foreach($commands as $command) {
@@ -76,40 +95,113 @@ class CustomCommands extends Command
 
             if($this->changeEnv) {
                 
-                $key = "CLIENT_SECRET" ;
+                $this->change_variable($this->value(), $this->escaped());
 
-                $value = $this->row($this->row);
-    
-                $path = app()->environmentFilePath();
-    
-                $escaped = preg_quote('='.env($key), '/');
-    
-                file_put_contents($path, preg_replace(
-                    
-                    "/^{$key}{$escaped}/m",
-                    
-                    "{$key}={$value}",
-                    
-                    file_get_contents($path)
-                ));
             }
-            
     
-            $this->info("The custom commands runs properly !");
+            $this->success();
         
         }else {
         
-            $this->warn("You have no commands to run !");
+            $this->warning();
         
         }
-        
-        
 
     }
+    
+    /**
+     * Preg the key variable in the .env file
+     *
+     * @return void
+     */
+    protected function escaped()
+    {
+        return preg_quote('='.env($this->key()), '/');
+    }
+    
+    /**
+     * The value returned from the row in the table
+     *
+     * @return void
+     */
+    protected function value()
+    {
+        return $this->row($this->row);
+    }
+    
+    /**
+     * The success message that returned after the commands run successfully
+     *
+     * @return string
+     */
+    protected function success() :string
+    {
+        return $this->info("The custom commands runs properly !");
+    }
+    
+    /**
+     * The warning message that returned if something wrong
+     *
+     * @return string
+     */
+    protected function warning() :string
+    {
+        return $this->warn("You have no commands to run !");
+    }
+    
+    /**
+     * The variable that who will change in the .env file
+     *
+     * @return string
+     */
+    protected function key() :string
+    {
+        return "CLIENT_SECRET";
+    }
+        
+    
+    /**
+     * Change the variable in the .env file
+     *
+     * @param  mixed $value
+     * @param  mixed $escaped
+     * @return void
+     */
+    protected function change_variable($value, $escaped)
+    {
+        return file_put_contents($this->path(), preg_replace(
+            
+                    "/^{$this->key()}{$escaped}/m",
+                    
+                    "{$this->key()}={$value}",
+                    
+                    file_get_contents($this->path())
+                )
+            );
+    }
 
+    
+    /**
+     * The .env path in the project
+     *
+     * @return void
+     */
+    protected function path()
+    {
+       return app()->environmentFilePath();
+    }
 
+    /**
+     * Get the value from the row in the table specified
+     *
+     * @param  string $row
+     * @return void
+     */
     protected function row($row)
     {        
-        return DB::table($this->table)->where('personal_access_client', 0)->first()->$row;
+        return DB::table($this->table)
+                    ->where('personal_access_client', 0)
+                    ->first()
+                    ->$row;
     }
 }
