@@ -134,7 +134,7 @@ class CustomCommands extends Command
      *
      * @return string
      */
-    protected function success() :string
+    protected function success()
     {
         return $this->info("The custom commands runs properly !");
     }
@@ -144,7 +144,7 @@ class CustomCommands extends Command
      *
      * @return string
      */
-    protected function warning() :string
+    protected function warning()
     {
         return $this->warn("You have no commands to run !");
     }
@@ -154,7 +154,7 @@ class CustomCommands extends Command
      *
      * @return string
      */
-    protected function key() :string
+    protected function key()
     {
         return "CLIENT_SECRET";
     }

@@ -1,4 +1,4 @@
-# Larave Custom Commands Package
+# Laravel Custom Commands Package
 
 
 ![Github issues](https://img.shields.io/github/issues/ayoubbajjou/custom-commands)
