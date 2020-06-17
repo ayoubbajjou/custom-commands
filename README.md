@@ -9,13 +9,13 @@ you are using Laravel Passport .
 
 ## Installation
 
-Begin by installing the package through Composer. Run the following command in your terminal:
+Install the package through Composer. Run the following command in your terminal
 
 ```bash
 composer require bajjouayoub/custom-commands
 ```
 
-Then publish the config file:
+Then publish the config file
 
 ```
 php artisan vendor:publish --provider="Bajjouayoub\CustomCommands\CustomCommandsServiceProvider"
